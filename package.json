@@ -1,0 +1,28 @@
+{
+  "name": "proyect3",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Proyecto Hotel",
+  "main": "index.js",
+  "repository": "https://github.com/elisum1/Proyecto3.git",
+  "author": "<elias.um94@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start:admin": "yarn workspace admin start",
+    "start:client": "yarn workspace client start",
+    "start:api": "yarn workspace api start",
+    "start:all": "concurrently \"yarn start:admin\" \"yarn start:client\" \"yarn start:api\"",
+    "build:admin": "yarn workspace admin build",
+    "build:client": "yarn workspace client build",
+    "build:api": "yarn workspace api build",
+    "install-all": "yarn install --ignore-engines"
+  },
+  "workspaces": [
+    "admin",
+    "client",
+    "api"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
