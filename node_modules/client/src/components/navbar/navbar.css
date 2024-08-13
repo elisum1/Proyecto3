@@ -1,11 +1,11 @@
-.navbar{
+.navbar {
   height: 50px;
-  background-color: #003580;
+  background-color: #009688; /* Verde */
   display: flex;
   justify-content: center;
 }
 
-.navContainer{
+.navContainer {
   width: 100%;
   max-width: 1024px;
   color: white;
@@ -14,14 +14,37 @@
   justify-content: space-between;
 }
 
-.logo{
+.logo {
   font-weight: 500;
+  font-size: 24px;
 }
 
-.navButton{
+.logoHighlight {
+  color: #ff5722; /* Naranja */
+  font-weight: 700;
+}
+
+.navItems {
+  display: flex;
+  align-items: center;
+}
+
+.navButton {
   margin-left: 20px;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
-  color: #003580;
+  color: #009688; /* Verde */
+  background-color: white;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.navIcon {
+  margin-right: 10px;
+}
+
+.navUsername {
+  margin-left: 10px;
+  font-weight: bold;
 }

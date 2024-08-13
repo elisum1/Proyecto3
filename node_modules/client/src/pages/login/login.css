@@ -3,30 +3,64 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #f5f5f5;
 }
 
 .lContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  width: 300px;
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.lInput{
-  height: 30px;
+.lInput {
+  height: 40px;
   padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .lButton {
   border: none;
-  padding: 10px 20px;
-  background-color: #0071c2;
+  padding: 10px;
+  background-color: #007bff;
   color: white;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.lButton:disabled{
-  background-color: #0071c28c;
+.lButton:disabled {
+  background-color: #007bffb3;
   cursor: not-allowed;
+}
+
+.lButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.lGuestButton {
+  border: none;
+  background-color: #6c757d;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.lGuestButton:hover {
+  background-color: #5a6268;
+}
+
+.lError {
+  color: red;
+  font-size: 14px;
+  text-align: center;
 }
