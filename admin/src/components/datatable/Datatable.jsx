@@ -1,6 +1,5 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../datatablesource";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
@@ -9,9 +8,12 @@ import axios from "axios";
 const Datatable = ({columns}) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  const [list, setList] = useState();
+  
+  // Inicializamos la lista como un array vacío para evitar problemas con `rows`
+  const [list, setList] = useState([]);
   const { data, loading, error } = useFetch(`/${path}`);
-
+  
+  // Aseguramos que la lista se actualiza cuando los datos cambian
   useEffect(() => {
     setList(data);
   }, [data]);
@@ -20,7 +22,9 @@ const Datatable = ({columns}) => {
     try {
       await axios.delete(`/${path}/${id}`);
       setList(list.filter((item) => item._id !== id));
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);  // Añadido console.error para capturar errores
+    }
   };
 
   const actionColumn = [
@@ -45,6 +49,7 @@ const Datatable = ({columns}) => {
       },
     },
   ];
+
   return (
     <div className="datatable">
       <div className="datatableTitle">
@@ -53,15 +58,18 @@ const Datatable = ({columns}) => {
           Add New
         </Link>
       </div>
-      <DataGrid
-        className="datagrid"
-        rows={list}
-        columns={columns.concat(actionColumn)}
-        pageSize={9}
-        rowsPerPageOptions={[9]}
-        checkboxSelection
-        getRowId={(row) => row._id}
-      />
+      {/* Nos aseguramos de que `list` está definido antes de renderizar DataGrid */}
+      {list && (
+        <DataGrid
+          className="datagrid"
+          rows={list}
+          columns={columns.concat(actionColumn)}
+          pageSize={9}
+          rowsPerPageOptions={[9]}
+          checkboxSelection
+          getRowId={(row) => row._id}
+        />
+      )}
     </div>
   );
 };

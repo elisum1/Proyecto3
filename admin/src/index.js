@@ -4,7 +4,7 @@ import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { DarkModeContextProvider } from "./context/darkModeContext";
 
-
+// Renderizar la aplicación dentro de React.StrictMode usando ReactDOM.render
 ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
@@ -13,5 +13,5 @@ ReactDOM.render(
       </DarkModeContextProvider>
     </AuthContextProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );

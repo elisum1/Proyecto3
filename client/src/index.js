@@ -1,16 +1,17 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom"; // Cambiado para React 17.0.2
 import App from "./App";
 import { AuthContextProvider } from "./context/AuthContext";
 import { SearchContextProvider } from "./context/SearchContext";
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+// Renderizar la aplicación dentro de React.StrictMode
+ReactDOM.render(
   <React.StrictMode>
     <AuthContextProvider>
       <SearchContextProvider>
         <App />
       </SearchContextProvider>
     </AuthContextProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root") // Usando ReactDOM.render para React 17.0.2
 );

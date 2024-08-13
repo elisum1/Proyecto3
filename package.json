@@ -7,11 +7,11 @@
   "repository": "https://github.com/elisum1/Proyecto3.git",
   "author": "<elias.um94@gmail.com>",
   "license": "MIT",
-  "scripts": {
+    "scripts": {
     "start:admin": "yarn workspace admin start",
     "start:client": "yarn workspace client start",
     "start:api": "yarn workspace api start",
-    "start:all": "concurrently \"yarn start:admin\" \"yarn start:client\" \"yarn start:api\"",
+    "start:all": "concurrently \"yarn start:admin\" \"yarn start:api\" \"yarn start:client\"",
     "build:admin": "yarn workspace admin build",
     "build:client": "yarn workspace client build",
     "build:api": "yarn workspace api build",
