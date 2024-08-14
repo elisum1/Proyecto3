@@ -13,79 +13,107 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const [showMain, setShowMain] = useState(true);
+  const [showLists, setShowLists] = useState(false);
+  const [showUser, setShowUser] = useState(false);
+  const [showService, setShowService] = useState(false);
+  const [showUseful, setShowUseful] = useState(false);
+
   return (
     <div className="sidebar">
       <div className="top">
         <Link to="/" style={{ textDecoration: "none" }}>
-          <span className="logo">lamadmin</span>
+          <span className="logo">BestDay</span>
         </Link>
       </div>
       <hr />
       <div className="center">
         <ul>
-          <p className="title">MAIN</p>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
-          </li>
-          <p className="title">LISTS</p>
-          <Link to="/users" style={{ textDecoration: "none" }}>
+          <p className="title" onClick={() => setShowMain(!showMain)}>PRINCIPAL</p>
+          {showMain && (
             <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
+              <DashboardIcon className="icon" />
+              <span>Tablero</span>
             </li>
-          </Link>
-          <Link to="/hotels" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span>Hotels</span>
-            </li>
-          </Link>
-          <Link to="/rooms" style={{ textDecoration: "none" }}>
-            <li>
-              <CreditCardIcon className="icon" />
-              <span>Rooms</span>
-            </li>
-          </Link>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
-          <p className="title">USEFUL</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
-          </li>
+          )}
+
+          <p className="title" onClick={() => setShowLists(!showLists)}>LISTAS</p>
+          {showLists && (
+            <>
+              <Link to="/users" style={{ textDecoration: "none" }}>
+                <li>
+                  <PersonOutlineIcon className="icon" />
+                  <span>Usuarios</span>
+                </li>
+              </Link>
+              <Link to="/hotels" style={{ textDecoration: "none" }}>
+                <li>
+                  <StoreIcon className="icon" />
+                  <span>Hoteles</span>
+                </li>
+              </Link>
+              <Link to="/rooms" style={{ textDecoration: "none" }}>
+                <li>
+                  <CreditCardIcon className="icon" />
+                  <span>Habitaciones</span>
+                </li>
+              </Link>
+              <li>
+                <LocalShippingIcon className="icon" />
+                <span>Entrega</span>
+              </li>
+            </>
+          )}
+
+          <p className="title" onClick={() => setShowUseful(!showUseful)}>ÚTIL</p>
+          {showUseful && (
+            <>
+              <li>
+                <InsertChartIcon className="icon" />
+                <span>Estadísticas</span>
+              </li>
+              <li>
+                <NotificationsNoneIcon className="icon" />
+                <span>Notificaciones</span>
+              </li>
+            </>
+          )}
+
+          <p className="title" onClick={() => setShowService(!showService)}>SERVICIO</p>
+          {showService && (
+            <>
+              <li>
+                <SettingsSystemDaydreamOutlinedIcon className="icon" />
+                <span>Salud del sistema</span>
+              </li>
+              <li>
+                <PsychologyOutlinedIcon className="icon" />
+                <span>Registros</span>
+              </li>
+              <li>
+                <SettingsApplicationsIcon className="icon" />
+                <span>Configuraciones</span>
+              </li>
+            </>
+          )}
+
+          <p className="title" onClick={() => setShowUser(!showUser)}>USUARIO</p>
+          {showUser && (
+            <>
+              <li>
+                <AccountCircleOutlinedIcon className="icon" />
+                <span>Perfil</span>
+              </li>
+              <li>
+                <ExitToAppIcon className="icon" />
+                <span>Cerrar sesión</span>
+              </li>
+            </>
+          )}
         </ul>
       </div>
       <div className="bottom">

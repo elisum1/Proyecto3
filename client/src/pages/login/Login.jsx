@@ -9,6 +9,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [isRegistering, setIsRegistering] = useState(false);
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
@@ -34,38 +35,87 @@ const Login = () => {
     navigate("/");
   };
 
+  const handleRegisterClick = () => {
+    setIsRegistering(true);
+  };
+
+  const handleRegisterSubmit = (e) => {
+    e.preventDefault();
+    // Lógica para manejar el registro de usuario
+    setIsRegistering(false); // Volver a la pantalla de login después del registro
+  };
+
   return (
     <div className="login">
+      <div className="titleContainer">
+        <span className="logo">
+          Best<span className="logoHighlight">Day</span>
+        </span>
+      </div>
       <div className="lContainer">
-        <h2>Login</h2>
-        <input
-          type="text"
-          placeholder="Username"
-          id="username"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <button
-          disabled={loading}
-          onClick={handleLoginClick}
-          className="lButton"
-        >
-          Login
-        </button>
-        {error && <div className="lError">{error.message}</div>}
-        <button
-          onClick={handleGuestClick}
-          className="lGuestButton"
-        >
-          Continue as Guest
-        </button>
+        {!isRegistering ? (
+          <>
+            <h2>Login</h2>
+            <input
+              type="text"
+              placeholder="Username"
+              id="username"
+              onChange={handleChange}
+              className="lInput"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              id="password"
+              onChange={handleChange}
+              className="lInput"
+            />
+            <button
+              disabled={loading}
+              onClick={handleLoginClick}
+              className="lButton"
+            >
+              Login
+            </button>
+            {error && <div className="lError">{error.message}</div>}
+            <button onClick={handleGuestClick} className="lGuestButton">
+              Continue as Guest
+            </button>
+            <button onClick={handleRegisterClick} className="lRegisterButton">
+              Registrarse
+            </button>
+          </>
+        ) : (
+          <>
+            <h2>Registro</h2>
+            <input
+              type="text"
+              placeholder="Username"
+              id="registerUsername"
+              className="lInput"
+            />
+            <input
+              type="email"
+              placeholder="Email"
+              id="registerEmail"
+              className="lInput"
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              id="registerPassword"
+              className="lInput"
+            />
+            <button
+              disabled={loading}
+              onClick={handleRegisterSubmit}
+              className="lButton"
+            >
+              Registrarse
+            </button>
+            {error && <div className="lError">{error.message}</div>}
+          </>
+        )}
       </div>
     </div>
   );

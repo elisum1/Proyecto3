@@ -1,25 +1,26 @@
 .sidebar {
   flex: 1;
-  border-right: 0.5px solid rgb(230, 227, 227);
+  border-right: 0.5px solid rgba(0, 128, 0, 0.4);
   min-height: 100vh;
   background-color: white;
+  transition: all 0.3s ease-in-out;
 
   .top {
-    height: 50px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
 
     .logo {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
-      color: #6439ff;
+      color: #4caf50;
     }
   }
 
   hr {
     height: 0;
-    border: 0.5px solid rgb(230, 227, 227);
+    border: 0.5px solid rgba(0, 128, 0, 0.4);
   }
 
   .center {
@@ -31,60 +32,70 @@
       padding: 0;
 
       .title {
-        font-size: 10px;
+        font-size: 14px;
         font-weight: bold;
-        color: #999;
+        color: #4caf50;
         margin-top: 15px;
         margin-bottom: 5px;
+        cursor: pointer;
+        &:hover {
+          color: #388e3c;
+        }
       }
 
       li {
         display: flex;
         align-items: center;
-        padding: 5px;
+        padding: 8px;
         cursor: pointer;
+        transition: background-color 0.3s ease;
 
         &:hover {
-          background-color: #ece8ff;
+          background-color: rgba(76, 175, 80, 0.1);
         }
 
         .icon {
-          font-size: 18px;
-          color: #7451f8;
+          font-size: 20px;
+          color: #4caf50;
         }
 
-        span{
-            font-size: 13px;
-            font-weight: 600;
-            color: #888;
-            margin-left: 10px;
+        span {
+          font-size: 15px;
+          font-weight: 600;
+          color: #4caf50;
+          margin-left: 10px;
         }
       }
     }
   }
 
-  .bottom{
-      display: flex;
-      align-items: center;
-      margin: 10px;
+  .bottom {
+    display: flex;
+    align-items: center;
+    margin: 10px;
 
-      .colorOption{
-          width: 20px;
-          height: 20px;
-          border-radius: 5px;
-          border: 1px solid #7451f8;
-          cursor: pointer;
-          margin: 5px;
+    .colorOption {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      border: 2px solid #4caf50;
+      cursor: pointer;
+      margin: 5px;
+      transition: transform 0.2s;
 
-          &:nth-child(1){
-              background-color: whitesmoke;
-          }
-          &:nth-child(2){
-              background-color: #333;
-          }
-          &:nth-child(3){
-              background-color: darkblue;
-          }
+      &:nth-child(1) {
+        background-color: whitesmoke;
       }
+      &:nth-child(2) {
+        background-color: #333;
+      }
+      &:nth-child(3) {
+        background-color: darkblue;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
   }
 }
