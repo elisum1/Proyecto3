@@ -13,7 +13,7 @@ dotenv.config();
 
 // Configuración de CORS
 app.use(cors({
-    origin: 'http://localhost:3000',  // Cambia esto por la URL de tu frontend
+    origin: ['http://localhost:3000', 'http://localhost:3001'], // Permite ambos orígenes
     methods: 'GET,POST,PUT,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
     credentials: true
@@ -58,7 +58,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(8800, () => {
+app.listen(process.env.PORT || 8800,   () => {
     connectDB();
     console.log('Connected on port 8800');
 });

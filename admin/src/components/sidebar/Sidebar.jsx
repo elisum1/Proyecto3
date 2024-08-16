@@ -13,10 +13,13 @@ import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
+import { AuthContext } from "../../context/AuthContext"; // Asegúrate de importar el AuthContext
 import { useContext, useState } from "react";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const { logout } = useContext(AuthContext); // Obtener la función de logout desde el AuthContext
+
   const [showMain, setShowMain] = useState(true);
   const [showLists, setShowLists] = useState(false);
   const [showUser, setShowUser] = useState(false);
@@ -108,7 +111,7 @@ const Sidebar = () => {
                 <AccountCircleOutlinedIcon className="icon" />
                 <span>Perfil</span>
               </li>
-              <li>
+              <li onClick={logout}> {/* Aquí llamas a la función logout al hacer clic */}
                 <ExitToAppIcon className="icon" />
                 <span>Cerrar sesión</span>
               </li>

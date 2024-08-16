@@ -10,8 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
 import { useContext, useState } from "react";
-import "react-date-range/dist/styles.css"; // main css file
-import "react-date-range/dist/theme/default.css"; // theme css file
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
@@ -34,8 +34,12 @@ const Header = ({ type }) => {
     room: 1,
   });
 
+  const [min, setMin] = useState(undefined);
+  const [max, setMax] = useState(undefined);
+
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const { dispatch } = useContext(SearchContext);
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -46,20 +50,19 @@ const Header = ({ type }) => {
     });
   };
 
-  const { dispatch } = useContext(SearchContext);
-
   const handleSearch = () => {
-    dispatch({ type: "NEW_SEARCH", payload: { destination, dates, options } });
-    navigate("/hotels", { state: { destination, dates, options } });
+    dispatch({ 
+      type: "NEW_SEARCH", 
+      payload: { destination, dates, options, min, max } 
+    });
+    navigate("/hotels", { 
+      state: { destination, dates, options, min, max } 
+    });
   };
 
   return (
     <div className="header">
-      <div
-        className={
-          type === "list" ? "headerContainer listMode" : "headerContainer"
-        }
-      >
+      <div className={type === "list" ? "headerContainer listMode" : "headerContainer"}>
         <div className="headerList">
           <div className="headerListItem active">
             <FontAwesomeIcon icon={faBed} />
@@ -84,9 +87,7 @@ const Header = ({ type }) => {
         </div>
         {type !== "list" && (
           <>
-            <h1 className="headerTitle">
-              ¿Una vida de descuentos? Es Genio.
-            </h1>
+            <h1 className="headerTitle">¿Una vida de descuentos? Es Genio.</h1>
             <p className="headerDesc">
               Obtén recompensas por tus viajes – desbloquea ahorros instantáneos del 10% o más con una cuenta gratuita de Lamabooking
             </p>
@@ -139,9 +140,7 @@ const Header = ({ type }) => {
                         >
                           -
                         </button>
-                        <span className="optionCounterNumber">
-                          {options.adult}
-                        </span>
+                        <span className="optionCounterNumber">{options.adult}</span>
                         <button
                           className="optionCounterButton"
                           onClick={() => handleOption("adult", "i")}
@@ -160,9 +159,7 @@ const Header = ({ type }) => {
                         >
                           -
                         </button>
-                        <span className="optionCounterNumber">
-                          {options.children}
-                        </span>
+                        <span className="optionCounterNumber">{options.children}</span>
                         <button
                           className="optionCounterButton"
                           onClick={() => handleOption("children", "i")}
@@ -181,9 +178,7 @@ const Header = ({ type }) => {
                         >
                           -
                         </button>
-                        <span className="optionCounterNumber">
-                          {options.room}
-                        </span>
+                        <span className="optionCounterNumber">{options.room}</span>
                         <button
                           className="optionCounterButton"
                           onClick={() => handleOption("room", "i")}
@@ -194,6 +189,26 @@ const Header = ({ type }) => {
                     </div>
                   </div>
                 )}
+              </div>
+              <div className="headerSearchItem">
+                <div className="headerSearchItem">
+                  <span className="headerSearchText">Precio mínimo (por noche)</span>
+                  <input 
+                    type="number" 
+                    className="headerSearchInput" 
+                    placeholder="Min" 
+                    onChange={(e) => setMin(e.target.value)} 
+                  />
+                </div>
+                <div className="headerSearchItem">
+                  <span className="headerSearchText">Precio máximo (por noche)</span>
+                  <input 
+                    type="number" 
+                    className="headerSearchInput" 
+                    placeholder="Max" 
+                    onChange={(e) => setMax(e.target.value)} 
+                  />
+                </div>
               </div>
               <button className="headerBtn" onClick={handleSearch}>Buscar</button>
             </div>

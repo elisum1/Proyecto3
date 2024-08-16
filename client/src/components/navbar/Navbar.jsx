@@ -31,7 +31,7 @@ const Navbar = () => {
             <Link to="/login" style={{ textDecoration: "none" }}>
               <button className="navButton">Login</button>
             </Link>
-            <Link to="/login" style={{ textDecoration: "none" }}>
+            <Link to="/register" style={{ textDecoration: "none" }}>
               <button className="navButton">Register</button>
             </Link>
           </div>

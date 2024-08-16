@@ -16,6 +16,7 @@
     "build:client": "yarn workspace client build",
     "build:api": "yarn workspace api build",
     "install-all": "yarn install --ignore-engines"
+    
   },
   "workspaces": [
     "admin",
