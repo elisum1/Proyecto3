@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaCamera } from "react-icons/fa";  // Importa el ícono de cámara
 import "./searchItem.css";
 
 const SearchItem = ({ item }) => {
+  const navigate = useNavigate();  // Hook useNavigate para la navegación
+
   return (
     <div className="searchItem">
       <div className="siImgContainer">
@@ -36,12 +38,9 @@ const SearchItem = ({ item }) => {
           <button className="siCheckButton">See availability</button>
         </Link>
       </div>
-      <div>
-    </div>
-     <button className="backButton" onClick={() => history.push("/")}>
-     Back to Home
-   </button>
-
+      <button className="backButton" onClick={() => navigate("/")}>
+        Back to Home
+      </button>
     </div>
   );
 };
