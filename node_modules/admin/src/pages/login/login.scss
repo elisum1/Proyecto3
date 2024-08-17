@@ -1,32 +1,76 @@
+/* login.scss */
 .login {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
 }
 
 .lContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  padding: 40px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  gap: 20px;
 }
 
-.lInput{
-  height: 30px;
-  padding: 10px;
+.lInput {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.lInput:focus {
+  border-color: #66a6ff;
 }
 
 .lButton {
+  width: 100%;
+  padding: 15px;
   border: none;
-  padding: 10px 20px;
-  background-color: #0071c2;
+  background-color: #66a6ff;
   color: white;
   font-weight: bold;
   cursor: pointer;
   border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.lButton:disabled{
-  background-color: #0071c28c;
+.lButton:hover {
+  background-color: #89f7fe;
+}
+
+.lButton:disabled {
+  background-color: #66a6ff8c;
   cursor: not-allowed;
+}
+
+.lError {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+.registerButton {
+  margin-top: 20px;
+  background-color: #ff6f61;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.registerButton:hover {
+  background-color: #ff8c85;
 }

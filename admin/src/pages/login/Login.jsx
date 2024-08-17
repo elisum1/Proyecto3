@@ -1,65 +1,86 @@
-import axios from "axios";
-import { useContext, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-// import { AuthContext } from "../../context/AuthContext";
+import axios from "axios";
 import "./login.scss";
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({
-    username: undefined,
-    password: undefined,
-  });
-
-  const { loading, error, dispatch } = useContext(AuthContext);
-
+  const [info, setInfo] = useState({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Variable de control de montaje
+  let isMounted = true;
+
+  useEffect(() => {
+    // Limpia la bandera al desmontar el componente
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleClick = async (e) => {
+  const handleLoginClick = async (e) => {
     e.preventDefault();
-    dispatch({ type: "LOGIN_START" });
-    try {
-      const res = await axios.post("/auth/login", credentials);
-      if (res.data.isAdmin) {
-        dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+    setLoading(true);
+    setError("");
 
-        navigate("/");
-      } else {
-        dispatch({
-          type: "LOGIN_FAILURE",
-          payload: { message: "No estas autenticado!" },
-        });
+    try {
+      const res = await axios.post("/auth/login", info);
+      console.log("User logged in:", res.data);
+      
+      if (isMounted) { 
+        navigate("/"); // Redirige al dashboard después del inicio de sesión
       }
     } catch (err) {
-      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
+      if (isMounted) {
+        setError(err.response?.data?.message || "An error occurred");
+      }
+    } finally {
+      if (isMounted) {
+        setLoading(false);
+      }
     }
   };
 
   return (
     <div className="login">
       <div className="lContainer">
-        <input
-          type="text"
-          placeholder="username"
-          id="username"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <button disabled={loading} onClick={handleClick} className="lButton">
-          Login
+        <h2>Login</h2>
+        <form className="form">
+          <div className="formInput">
+            <label>Username</label>
+            <input
+              onChange={handleChange}
+              type="text"
+              placeholder="Username"
+              id="username"
+              className="lInput"
+            />
+          </div>
+          <div className="formInput">
+            <label>Password</label>
+            <input
+              onChange={handleChange}
+              type="password"
+              placeholder="Password"
+              id="password"
+              className="lInput"
+            />
+          </div>
+          <button onClick={handleLoginClick} disabled={loading} className="lButton">
+            {loading ? "Loading..." : "Login"}
+          </button>
+          {error && <div className="lError">{error}</div>}
+        </form>
+
+        {/* Botón de Registrarse */}
+        <button onClick={() => navigate("/register")} className="registerButton">
+          Registrarse
         </button>
-        {error && <span>{error.message}</span>}
       </div>
     </div>
   );
