@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import cors from 'cors';  // Importa el paquete cors
+import cors from 'cors';
 import authRoute from './routes/auth.js';
 import usersRoute from './routes/users.js';
 import roomsRoute from './routes/rooms.js';
@@ -11,30 +11,40 @@ import cookieParser from 'cookie-parser';
 const app = express();
 dotenv.config();
 
-// Configuración de CORS
-app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:3001','hotel-admin-five.vercel.app','hotel-client-xi.vercel.app'], // Permite ambos orígenes
-    methods: 'GET,POST,PUT,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-    credentials: true
-}));
-
+// Conexión a la base de datos
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO);
         console.log('Conectado a MongoDB');
     } catch (error) {
+        console.error('Error conectando a MongoDB:', error);
         throw error;
     }
 };
 
 mongoose.connection.on('disconnected', () => {
-    console.log('mongoDB desconectado');
+    console.log('MongoDB desconectado');
 });
 
 mongoose.connection.on('connected', () => {
-    console.log('mongoDB está conectado');
+    console.log('MongoDB está conectado');
 });
+
+// Configuración de CORS
+app.use(cors({
+    origin: [
+        'http://localhost:3000', 
+        'http://localhost:3001',
+        'https://hotel-admin-cy39desuk-elisum1s-projects.vercel.app',
+        'https://hotel-client-k9ykot9cb-elisum1s-projects.vercel.app'
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
+
+// Middleware para manejar pre-flight requests
+app.options('*', cors());
 
 // Middlewares
 app.use(cookieParser());
@@ -58,7 +68,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(process.env.PORT || 8800,   () => {
+// Iniciar el servidor
+app.listen(process.env.PORT || 8800, () => {
     connectDB();
-    console.log('Connected on port 8800');
+    console.log('Servidor corriendo en el puerto', process.env.PORT || 8800);
 });

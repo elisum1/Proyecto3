@@ -1,86 +1,72 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 import "./login.scss";
 
 const Login = () => {
-  const [info, setInfo] = useState({ username: "", password: "" });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [credentials, setCredentials] = useState({
+    username: undefined,
+    password: undefined,
+  });
+
+  const { loading, error, dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Variable de control de montaje
-  let isMounted = true;
-
-  useEffect(() => {
-    // Limpia la bandera al desmontar el componente
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
   const handleChange = (e) => {
-    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleLoginClick = async (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
+    dispatch({ type: "LOGIN_START" });
 
     try {
-      const res = await axios.post("/auth/login", info);
-      console.log("User logged in:", res.data);
-      
-      if (isMounted) { 
-        navigate("/"); // Redirige al dashboard después del inicio de sesión
+      const res = await axios.post(
+        "https://api-xm8x.onrender.com/api/auth/login", // Usamos la propiedad proxy en desarrollo
+        credentials,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true, // Necesario para enviar cookies y credenciales
+        }
+      );
+      if (res.data.isAdmin) {
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data.details });
+        navigate("/");
+      } else {
+        dispatch({
+          type: "LOGIN_FAILURE",
+          payload: { message: "No estás autenticado!" },
+        });
       }
     } catch (err) {
-      if (isMounted) {
-        setError(err.response?.data?.message || "An error occurred");
-      }
-    } finally {
-      if (isMounted) {
-        setLoading(false);
-      }
+      dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
 
   return (
     <div className="login">
       <div className="lContainer">
-        <h2>Login</h2>
-        <form className="form">
-          <div className="formInput">
-            <label>Username</label>
-            <input
-              onChange={handleChange}
-              type="text"
-              placeholder="Username"
-              id="username"
-              className="lInput"
-            />
-          </div>
-          <div className="formInput">
-            <label>Password</label>
-            <input
-              onChange={handleChange}
-              type="password"
-              placeholder="Password"
-              id="password"
-              className="lInput"
-            />
-          </div>
-          <button onClick={handleLoginClick} disabled={loading} className="lButton">
-            {loading ? "Loading..." : "Login"}
-          </button>
-          {error && <div className="lError">{error}</div>}
-        </form>
-
-        {/* Botón de Registrarse */}
-        <button onClick={() => navigate("/register")} className="registerButton">
-          Registrarse
+        <input
+          type="text"
+          placeholder="username"
+          id="username"
+          onChange={handleChange}
+          className="lInput"
+        />
+        <input
+          type="password"
+          placeholder="password"
+          id="password"
+          onChange={handleChange}
+          className="lInput"
+        />
+        <button disabled={loading} onClick={handleClick} className="lButton">
+          Login
         </button>
+        {error && <span>{error.message}</span>}
       </div>
     </div>
   );
